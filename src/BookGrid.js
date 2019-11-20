@@ -1,11 +1,18 @@
 import React, { Component } from "react";
 import BookShelfChanger from "./BookShelfChanger";
+import PropTypes from "prop-types";
 
 /**
  * BookGrid Component renders information about each book (as a box showing
  * the book's image, title and author).
  */
 class BookGrid extends Component {
+  static propTypes = {
+    books: PropTypes.array.isRequired,
+    changeShelf: PropTypes.func.isRequired,
+    currShelf: PropTypes.object
+  };
+
   /**
    * @description Renders the grid showing info about a single book.
    */
