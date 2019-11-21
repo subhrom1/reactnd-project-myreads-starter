@@ -23,7 +23,7 @@ class BookGrid extends Component {
         {books
           .filter(book => currShelf === "" || book.shelf === currShelf.id)
           .map(currBook => (
-            <li key={currBook.title + "-" + currBook.authors}>
+            <li key={currBook.id}>
               <div className="book">
                 <div className="book-top">
                   <div

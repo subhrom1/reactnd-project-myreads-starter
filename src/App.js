@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import * as BooksAPI from "./BooksAPI";
 import "./App.css";
-import { Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import BookSearch from "./BookSearch";
 import BookList from "./BookList";
+import PageNotFound from "./PageNotFound"
 
 /**
  * BooksApp has UI to search for books and add them to various shelves
@@ -46,7 +47,6 @@ class BooksApp extends Component {
     query === ""
       ? this.setState({ searchResults: [] })
       : BooksAPI.search(query).then(data => {
-          console.log(data);
           this.setState(currentState => {
             //If search has no match then API call shows data.error
             if (data.error || data === "") {
@@ -114,7 +114,7 @@ class BooksApp extends Component {
         searchResult: currentState.searchResults
       };
     });
-    console.log("set set");
+    //Updates book API at the BackEnd.
     BooksAPI.update(currentBook.data, value);
   };
 
@@ -123,6 +123,7 @@ class BooksApp extends Component {
   render() {
     return (
       <div className="app">
+        <Switch>
         <Route
           exact
           path="/"
@@ -134,7 +135,7 @@ class BooksApp extends Component {
             />
           )}
         />
-        <Route
+        <Route exact
           path="/search"
           render={() => (
             <BookSearch
@@ -145,6 +146,8 @@ class BooksApp extends Component {
             />
           )}
         />
+        <Route component={PageNotFound} />
+        </Switch>
       </div>
     );
   }
