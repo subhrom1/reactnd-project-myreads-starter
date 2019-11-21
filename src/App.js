@@ -17,6 +17,27 @@ class BooksApp extends Component {
   };
 
   /**
+   * @description Initialises the bookList when the Component is Loaded.
+   */
+  componentDidMount() {
+    BooksAPI.getAll().then(data => {
+      this.setState({
+        books: data.map(row => {
+          return {
+            id: row.id,
+            data: row,
+            title: row.title,
+            authors: row.authors,
+            shelf: row.shelf,
+            img: row.imageLinks ? row.imageLinks.thumbnail : ""
+          };
+        }),
+        searchResults: []
+      });
+    });
+  }
+
+  /**
    * @description Calls BooksAPI to search books based on the query on BookSearch compoment.
    * @param {string} query The Search Term for lookup by BooksAPI
    */
@@ -25,6 +46,7 @@ class BooksApp extends Component {
     query === ""
       ? this.setState({ searchResults: [] })
       : BooksAPI.search(query).then(data => {
+          console.log(data);
           this.setState(currentState => {
             //If search has no match then API call shows data.error
             if (data.error || data === "") {
@@ -35,13 +57,15 @@ class BooksApp extends Component {
             const results = data.map(row => {
               let bookShelf = "none";
               for (const book of currentState.books) {
-                if (book.title === row.title) {
+                if (book.id === row.id) {
                   bookShelf = book.shelf;
                   break;
                 }
               }
               //Book Construction from Result
               return {
+                id: row.id,
+                data: row,
                 title: row.title,
                 authors: row.authors,
                 shelf: bookShelf,
@@ -90,6 +114,8 @@ class BooksApp extends Component {
         searchResult: currentState.searchResults
       };
     });
+    console.log("set set");
+    BooksAPI.update(currentBook.data, value);
   };
 
   /**
