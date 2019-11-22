@@ -40,7 +40,7 @@ To install and run this application:
     │   ├── add.svg
     │   ├── arrow-back.svg
     │   └── arrow-drop-down.svg
-    ├── index.css # Global styles.
+    ├── index.css # Global styles to be used for development.
     └── index.js # It is used for DOM rendering only.
 ```
 
